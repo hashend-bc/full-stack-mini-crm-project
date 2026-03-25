@@ -91,10 +91,14 @@ export default function Sidebar() {
             <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
             <p className="text-xs text-gray-400 truncate">{user?.email}</p>
           </div>
-          <button onClick={handleLogout} className="p-1 rounded hover:bg-gray-100" title="Logout">
-            <LogOut size={14} className="text-gray-400" />
-          </button>
         </div>
+        <button
+          onClick={handleLogout}
+          className="w-full mt-2 flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+        >
+          <LogOut size={16} />
+          <span>Logout</span>
+        </button>
       </div>
     </aside>
   )
