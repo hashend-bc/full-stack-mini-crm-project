@@ -124,7 +124,10 @@ export default function NotesPage() {
       <Modal open={!!editNote} onClose={() => setEditNote(null)} title="Edit Note">
         {editNote && (
           <NoteForm
-            initial={editNote}
+            initial={{
+              ...editNote,
+              assignedTo: typeof editNote.assignedTo === 'object' ? editNote.assignedTo._id : editNote.assignedTo,
+            }}
             onSubmit={handleUpdate}
             onCancel={() => setEditNote(null)}
             submitLabel="Save Changes"

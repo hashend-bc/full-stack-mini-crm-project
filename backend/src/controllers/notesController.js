@@ -50,4 +50,38 @@ const deleteNote = async (req, res) => {
   res.json({ message: 'Note deleted' })
 }
 
-module.exports = { getNotes, getNote, createNote, updateNote, deleteNote }
+const getNotesStats = async (req, res) => {
+  const userId = req.user._id
+
+  // Total notes
+  const totalNotes = await Note.countDocuments({ assignedTo: userId })
+
+  // Notes by status
+  const statusStats = await Note.aggregate([
+    { $match: { assignedTo: userId } },
+    { $group: { _id: '$status', count: { $sum: 1 } } }
+  ])
+
+  // Notes over time (last 30 days)
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  const timeStats = await Note.aggregate([
+    { $match: { assignedTo: userId, createdAt: { $gte: thirtyDaysAgo } } },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: '%Y-%m-%d', date: '$createdAt' }
+        },
+        count: { $sum: 1 }
+      }
+    },
+    { $sort: { '_id': 1 } }
+  ])
+
+  res.json({
+    totalNotes,
+    statusStats,
+    timeStats
+  })
+}
+
+module.exports = { getNotes, getNote, createNote, updateNote, deleteNote, getNotesStats }

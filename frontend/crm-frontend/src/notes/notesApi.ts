@@ -21,10 +21,17 @@ export interface NotePayload {
   assignedTo?: string
 }
 
+export interface NoteStats {
+  totalNotes: number
+  statusStats: { _id: string; count: number }[]
+  timeStats: { _id: string; count: number }[]
+}
+
 export const notesApi = {
   getAll: (): Promise<Note[]> => api.get<Note[]>('/notes').then((r) => r.data),
   getOne: (id: string): Promise<Note> => api.get<Note>(`/notes/${id}`).then((r) => r.data),
   create: (data: NotePayload): Promise<Note> => api.post<Note>('/notes', data).then((r) => r.data),
   update: (id: string, data: Partial<NotePayload>): Promise<Note> => api.put<Note>(`/notes/${id}`, data).then((r) => r.data),
   delete: (id: string) => api.delete(`/notes/${id}`).then((r) => r.data),
+  getStats: (): Promise<NoteStats> => api.get<NoteStats>('/notes/stats').then((r) => r.data),
 }

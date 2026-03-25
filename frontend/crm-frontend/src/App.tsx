@@ -5,6 +5,7 @@ import LoginPage from '@/auth/LoginPage'
 import RegisterPage from '@/auth/RegisterPage'
 import NotesPage from '@/notes/NotesPage'
 import DashboardPage from '@/notes/DashboardPage'
+import AnalyticsPage from '@/analytics/AnalyticsPage'
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route
             path="/notes"
             element={<ProtectedRoute><NotesPage /></ProtectedRoute>}
+          />
+          <Route
+            path="/analytics"
+            element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>}
           />
           {/* Catch-all for unimplemented sidebar pages */}
           <Route

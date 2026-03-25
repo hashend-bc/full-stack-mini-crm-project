@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const { body } = require('express-validator')
-const { getNotes, getNote, createNote, updateNote, deleteNote } = require('../controllers/notesController')
+const { getNotes, getNote, createNote, updateNote, deleteNote, getNotesStats } = require('../controllers/notesController')
 const { protect } = require('../middleware/auth')
 
 router.use(protect)
 
 router.get('/', getNotes)
+router.get('/stats', getNotesStats)
 router.get('/:id', getNote)
 
 router.post('/', [
